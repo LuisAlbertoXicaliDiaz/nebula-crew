@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/sala.dart';
+import '../services/sala_service.dart';
 import '../widgets/boton_principal.dart';
 
 class PantallaCrearSala extends StatefulWidget {
@@ -21,12 +23,16 @@ class _PantallaCrearSalaState extends State<PantallaCrearSala> {
       return;
     }
 
+    final SalaService salaService = SalaService();
+    final Sala sala = salaService.crearSala();
+
     Navigator.pushNamed(
       context,
       '/espera',
       arguments: {
         'nombre': nombre,
-        'codigoSala': '4821',
+        'codigoSala': sala.codigo,
+        'salaId': sala.id,
       },
     );
   }
