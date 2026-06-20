@@ -52,32 +52,32 @@ class PantallaJuego extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Partida'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TarjetaInfo(
-              titulo: 'Jugador',
-              contenido: '$nombre | Sala: $codigoSala',
-            ),
-            const SizedBox(height: 16),
-            TarjetaInfo(
-              titulo: 'Rol asignado',
-              contenido: rol.toUpperCase(),
-            ),
-            const SizedBox(height: 16),
-            TemporizadorWidget(
-              segundosIniciales: 60,
-              alTerminar: () {
-                perderPorTiempo(context);
-              },
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: _contenidoPorRol(context, rol),
-            ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TarjetaInfo(
+                titulo: 'Jugador',
+                contenido: '$nombre | Sala: $codigoSala',
+              ),
+              const SizedBox(height: 16),
+              TarjetaInfo(
+                titulo: 'Rol asignado',
+                contenido: rol.toUpperCase(),
+              ),
+              const SizedBox(height: 16),
+              TemporizadorWidget(
+                segundosIniciales: 60,
+                alTerminar: () {
+                  perderPorTiempo(context);
+                },
+              ),
+              const SizedBox(height: 24),
+              _contenidoPorRol(context, rol),
+            ],
+          ),
         ),
       ),
     );
