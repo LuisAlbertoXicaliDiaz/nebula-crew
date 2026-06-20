@@ -57,7 +57,7 @@ class PantallaJuego extends StatelessWidget {
     final String rol = argumentos['rol'] ?? 'piloto';
 
     final JuegoService juegoService = JuegoService();
-    final Reto reto = juegoService.obtenerRetoInicial();
+    final Reto reto = juegoService.obtenerRetoAleatorio();
 
     return Scaffold(
       appBar: AppBar(
