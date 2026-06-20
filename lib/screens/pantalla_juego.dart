@@ -16,7 +16,7 @@ class PantallaJuego extends StatelessWidget {
     );
 
     if (respuestaCorrecta) {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         '/resultado',
         arguments: {
@@ -25,7 +25,7 @@ class PantallaJuego extends StatelessWidget {
         },
       );
     } else {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         '/resultado',
         arguments: {
@@ -37,7 +37,7 @@ class PantallaJuego extends StatelessWidget {
   }
 
   void perderPorTiempo(BuildContext context) {
-    Navigator.pushNamed(
+    Navigator.pushReplacementNamed(
       context,
       '/resultado',
       arguments: {
