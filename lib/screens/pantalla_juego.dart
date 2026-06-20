@@ -26,7 +26,31 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     reto = juegoService.obtenerRetoAleatorio();
   }
 
-  void validarRespuesta(BuildContext context, String respuesta) {
+  int obtenerTiempoPorDificultad(String dificultad) {
+    if (dificultad == 'medio') {
+      return 45;
+    }
+
+    if (dificultad == 'dificil') {
+      return 30;
+    }
+
+    return 60;
+  }
+
+  int obtenerDanioPorDificultad(String dificultad) {
+    if (dificultad == 'dificil') {
+      return 100;
+    }
+
+    return 50;
+  }
+
+  void validarRespuesta(
+    BuildContext context,
+    String respuesta,
+    String dificultad,
+  ) {
     final bool respuestaCorrecta = juegoService.validarRespuesta(
       reto,
       respuesta,
@@ -46,7 +70,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     } else {
       setState(() {
         errores++;
-        energia -= 50;
+        energia -= obtenerDanioPorDificultad(dificultad);
       });
 
       if (energia <= 0) {
@@ -91,6 +115,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     final String nombre = argumentos['nombre'] ?? 'Jugador';
     final String codigoSala = argumentos['codigoSala'] ?? '0000';
     final String rol = argumentos['rol'] ?? 'piloto';
+    final String dificultad = argumentos['dificultad'] ?? 'facil';
 
     return Scaffold(
       appBar: AppBar(
@@ -112,6 +137,11 @@ class _PantallaJuegoState extends State<PantallaJuego> {
                 contenido: rol.toUpperCase(),
               ),
               const SizedBox(height: 16),
+              TarjetaInfo(
+                titulo: 'Dificultad',
+                contenido: dificultad.toUpperCase(),
+              ),
+              const SizedBox(height: 16),
               BarraEnergiaWidget(
                 energia: energia,
                 errores: errores,
@@ -123,13 +153,13 @@ class _PantallaJuegoState extends State<PantallaJuego> {
               ),
               const SizedBox(height: 16),
               TemporizadorWidget(
-                segundosIniciales: 60,
+                segundosIniciales: obtenerTiempoPorDificultad(dificultad),
                 alTerminar: () {
                   perderPorTiempo(context);
                 },
               ),
               const SizedBox(height: 24),
-              _contenidoPorRol(context, rol),
+              _contenidoPorRol(context, rol, dificultad),
             ],
           ),
         ),
@@ -137,9 +167,13 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     );
   }
 
-  Widget _contenidoPorRol(BuildContext context, String rol) {
+  Widget _contenidoPorRol(
+    BuildContext context,
+    String rol,
+    String dificultad,
+  ) {
     if (rol == 'piloto') {
-      return _vistaPiloto(context);
+      return _vistaPiloto(context, dificultad);
     }
 
     if (rol == 'analista') {
@@ -155,7 +189,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     );
   }
 
-  Widget _vistaPiloto(BuildContext context) {
+  Widget _vistaPiloto(BuildContext context, String dificultad) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -173,21 +207,21 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         BotonPrincipal(
           texto: 'Boton izquierdo',
           onPressed: () {
-            validarRespuesta(context, 'izquierdo');
+            validarRespuesta(context, 'izquierdo', dificultad);
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton centro',
           onPressed: () {
-            validarRespuesta(context, 'centro');
+            validarRespuesta(context, 'centro', dificultad);
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton derecho',
           onPressed: () {
-            validarRespuesta(context, 'derecho');
+            validarRespuesta(context, 'derecho', dificultad);
           },
         ),
       ],

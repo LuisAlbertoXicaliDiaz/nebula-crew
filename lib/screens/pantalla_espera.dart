@@ -13,6 +13,7 @@ class PantallaEspera extends StatefulWidget {
 
 class _PantallaEsperaState extends State<PantallaEspera> {
   String rolSeleccionado = 'piloto';
+  String dificultadSeleccionada = 'facil';
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +95,33 @@ class _PantallaEsperaState extends State<PantallaEspera> {
               },
             ),
             const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              value: dificultadSeleccionada,
+              decoration: const InputDecoration(
+                labelText: 'Dificultad',
+                border: OutlineInputBorder(),
+              ),
+              items: const [
+                DropdownMenuItem(
+                  value: 'facil',
+                  child: Text('Facil'),
+                ),
+                DropdownMenuItem(
+                  value: 'medio',
+                  child: Text('Medio'),
+                ),
+                DropdownMenuItem(
+                  value: 'dificil',
+                  child: Text('Dificil'),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  dificultadSeleccionada = value ?? 'facil';
+                });
+              },
+            ),
+            const SizedBox(height: 16),
             BotonPrincipal(
               texto: 'Iniciar partida',
               onPressed: () {
@@ -105,6 +133,7 @@ class _PantallaEsperaState extends State<PantallaEspera> {
                     'codigoSala': codigoSala,
                     'salaId': salaId,
                     'rol': rolSeleccionado,
+                    'dificultad': dificultadSeleccionada,
                   },
                 );
               },
