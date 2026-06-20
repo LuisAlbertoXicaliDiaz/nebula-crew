@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
+import '../widgets/temporizador_widget.dart';
 
 class PantallaJuego extends StatelessWidget {
   const PantallaJuego({super.key});
@@ -25,6 +26,17 @@ class PantallaJuego extends StatelessWidget {
         },
       );
     }
+  }
+
+  void perderPorTiempo(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      '/resultado',
+      arguments: {
+        'resultado': 'perdida',
+        'mensaje': 'Se acabo el tiempo. La nave no pudo estabilizarse.',
+      },
+    );
   }
 
   @override
@@ -53,6 +65,13 @@ class PantallaJuego extends StatelessWidget {
             TarjetaInfo(
               titulo: 'Rol asignado',
               contenido: rol.toUpperCase(),
+            ),
+            const SizedBox(height: 16),
+            TemporizadorWidget(
+              segundosIniciales: 60,
+              alTerminar: () {
+                perderPorTiempo(context);
+              },
             ),
             const SizedBox(height: 24),
             Expanded(
