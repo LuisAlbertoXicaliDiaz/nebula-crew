@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/boton_principal.dart';
+import '../widgets/tarjeta_info.dart';
 
 class PantallaResultado extends StatelessWidget {
   const PantallaResultado({super.key});
@@ -11,6 +12,8 @@ class PantallaResultado extends StatelessWidget {
 
     final String resultado = argumentos['resultado'] ?? 'perdida';
     final String mensaje = argumentos['mensaje'] ?? 'La partida termino.';
+    final String energia = argumentos['energia'] ?? '0';
+    final String errores = argumentos['errores'] ?? '0';
 
     final bool gano = resultado == 'ganada';
 
@@ -43,6 +46,11 @@ class PantallaResultado extends StatelessWidget {
               mensaje,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 24),
+            TarjetaInfo(
+              titulo: 'Resumen',
+              contenido: 'Energia restante: $energia%\nErrores: $errores',
             ),
             const SizedBox(height: 40),
             BotonPrincipal(

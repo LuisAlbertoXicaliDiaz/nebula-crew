@@ -38,6 +38,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         arguments: {
           'resultado': 'ganada',
           'mensaje': 'Mision completada. La nave fue estabilizada.',
+          'energia': energia.toString(),
+          'errores': errores.toString(),
         },
       );
     } else {
@@ -53,6 +55,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
           arguments: {
             'resultado': 'perdida',
             'mensaje': 'La energia llego a 0. La nave fallo.',
+            'energia': energia.toString(),
+            'errores': errores.toString(),
           },
         );
       } else {
@@ -70,6 +74,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
       arguments: {
         'resultado': 'perdida',
         'mensaje': 'Se acabo el tiempo. La nave no pudo estabilizarse.',
+        'energia': energia.toString(),
+        'errores': errores.toString(),
       },
     );
   }
