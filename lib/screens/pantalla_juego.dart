@@ -62,7 +62,9 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Respuesta incorrecta. Energia reducida.')),
+          const SnackBar(
+            content: Text('Respuesta incorrecta. Energia reducida.'),
+          ),
         );
       }
     }
@@ -111,8 +113,13 @@ class _PantallaJuegoState extends State<PantallaJuego> {
               ),
               const SizedBox(height: 16),
               BarraEnergiaWidget(
-                 energia: energia,
-                 errores: errores,
+                energia: energia,
+                errores: errores,
+              ),
+              const SizedBox(height: 16),
+              TarjetaInfo(
+                titulo: 'Mision actual',
+                contenido: 'Reparar sistema: ${reto.sistema}',
               ),
               const SizedBox(height: 16),
               TemporizadorWidget(
