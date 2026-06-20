@@ -16,6 +16,9 @@ class _PantallaJuegoState extends State<PantallaJuego> {
   late Reto reto;
   final JuegoService juegoService = JuegoService();
 
+  int energia = 100;
+  int errores = 0;
+
   @override
   void initState() {
     super.initState();
@@ -38,14 +41,25 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         },
       );
     } else {
-      Navigator.pushReplacementNamed(
-        context,
-        '/resultado',
-        arguments: {
-          'resultado': 'perdida',
-          'mensaje': 'Respuesta incorrecta. El sistema de la nave fallo.',
-        },
-      );
+      setState(() {
+        errores++;
+        energia -= 50;
+      });
+
+      if (energia <= 0) {
+        Navigator.pushReplacementNamed(
+          context,
+          '/resultado',
+          arguments: {
+            'resultado': 'perdida',
+            'mensaje': 'La energia llego a 0. La nave fallo.',
+          },
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Respuesta incorrecta. Energia reducida.')),
+        );
+      }
     }
   }
 
@@ -87,6 +101,11 @@ class _PantallaJuegoState extends State<PantallaJuego> {
               TarjetaInfo(
                 titulo: 'Rol asignado',
                 contenido: rol.toUpperCase(),
+              ),
+              const SizedBox(height: 16),
+              TarjetaInfo(
+                titulo: 'Estado de la nave',
+                contenido: 'Energia: $energia%\nErrores: $errores',
               ),
               const SizedBox(height: 16),
               TemporizadorWidget(
