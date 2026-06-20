@@ -53,16 +53,20 @@ La primera fase no busca tener arte profesional ni muchas mecanicas. Primero deb
 El prototipo debe tener:
 
 - Pantalla de inicio.
+- Pantalla de instrucciones.
 - Crear sala.
 - Unirse a sala con codigo.
 - Sala de espera.
-- Esperar hasta que entren 3 jugadores.
-- Asignar roles automaticamente.
+- Jugadores simulados.
+- Selector de rol para probar Piloto, Analista e Ingeniero.
 - Mostrar pantalla diferente segun el rol.
 - Temporizador.
-- Un reto sencillo.
+- Retos aleatorios simulados.
+- Barra de energia.
+- Sistema de errores.
 - Validar si la respuesta es correcta o incorrecta.
 - Pantalla de resultado: ganaron o perdieron.
+- Resumen final con energia restante y errores.
 
 
 4. ROLES DEL JUEGO
@@ -130,18 +134,36 @@ Dar la instruccion final usando la informacion del Piloto y del Analista.
 12. Si la respuesta es incorrecta o se acaba el tiempo, pierden.
 
 
-6. RETO INICIAL DEL PROTOTIPO
------------------------------
+6. RETOS DEL PROTOTIPO
+----------------------
 
-Para la primera version se recomienda usar un solo reto fijo.
+La version actual ya no usa un solo reto fijo. El juego elige un reto aleatorio al iniciar la partida.
 
-Datos del reto:
+Reto 1:
 
 - Sistema: Oxigeno
 - Codigo: A7X
 - Simbolo: Luna
 - Botones: izquierdo, centro, derecho
 - Respuesta correcta: boton derecho
+
+Reto 2:
+
+- Sistema: Motor
+- Codigo: M3B
+- Simbolo: Sol
+- Botones: izquierdo, centro, derecho
+- Respuesta correcta: boton centro
+
+Reto 3:
+
+- Sistema: Escudos
+- Codigo: E9K
+- Simbolo: Estrella
+- Botones: izquierdo, centro, derecho
+- Respuesta correcta: boton izquierdo
+
+Ejemplo de informacion por rol:
 
 Pantalla del Piloto:
 
@@ -161,6 +183,8 @@ Pantalla del Ingeniero:
 Solucion:
 El Piloto debe presionar el boton derecho.
 
+La logica actual permite que la respuesta correcta cambie dependiendo del reto elegido.
+
 
 7. ESTRUCTURA INICIAL DE ARCHIVOS DART
 --------------------------------------
@@ -176,6 +200,7 @@ lib/
 
   screens/
     pantalla_inicio.dart
+    pantalla_instrucciones.dart
     pantalla_crear_sala.dart
     pantalla_unirse_sala.dart
     pantalla_espera.dart
@@ -196,9 +221,11 @@ lib/
   widgets/
     boton_principal.dart
     tarjeta_info.dart
+    temporizador_widget.dart
+    barra_energia_widget.dart
 
 Total inicial:
-16 archivos .dart
+18 archivos .dart
 
 
 8. FUNCION DE CADA ARCHIVO
@@ -208,7 +235,10 @@ main.dart
 Archivo principal de la app. Define MaterialApp, tema y rutas.
 
 screens/pantalla_inicio.dart
-Pantalla inicial con botones para crear sala o unirse.
+Pantalla inicial con botones para crear sala, unirse o ver como jugar.
+
+screens/pantalla_instrucciones.dart
+Pantalla que explica la mecanica del juego: cada jugador tiene informacion distinta y deben comunicarse para resolver el reto.
 
 screens/pantalla_crear_sala.dart
 Pantalla donde el jugador escribe su nombre y crea una sala.
@@ -251,6 +281,12 @@ Boton reutilizable para mantener el mismo estilo visual.
 
 widgets/tarjeta_info.dart
 Tarjeta reutilizable para mostrar informacion del juego.
+
+widgets/temporizador_widget.dart
+Widget reutilizable que muestra el tiempo restante. Si el tiempo llega a cero, la partida se pierde.
+
+widgets/barra_energia_widget.dart
+Widget reutilizable que muestra la energia de la nave y los errores cometidos.
 
 
 9. BASE DE DATOS INICIAL EN SUPABASE
@@ -395,6 +431,15 @@ Crear el reto inicial.
 Paso 15:
 Validar respuesta y mostrar resultado.
 
+Paso 16:
+Agregar temporizador, energia, errores y resumen final.
+
+Paso 17:
+Agregar retos aleatorios simulados.
+
+Paso 18:
+Preparar Supabase para la siguiente fase.
+
 
 12. CARPETA DONDE CONVIENE GUARDAR EL PROYECTO
 ----------------------------------------------
@@ -439,6 +484,12 @@ git commit -m "Agregar pantallas iniciales"
 git commit -m "Agregar modelos principales"
 git commit -m "Agregar navegacion entre pantallas"
 git commit -m "Agregar estructura de servicios"
+git commit -m "Agregar formularios para crear y unirse a sala"
+git commit -m "Agregar pantalla de espera simulada"
+git commit -m "Agregar pantalla de juego por roles"
+git commit -m "Agregar temporizador de partida"
+git commit -m "Agregar energia y errores de partida"
+git commit -m "Agregar retos aleatorios simulados"
 git commit -m "Conectar Supabase"
 git commit -m "Agregar creacion de salas"
 git commit -m "Agregar union a salas"
@@ -489,7 +540,66 @@ No se recomienda pay-to-win.
 La primera version debe enfocarse en que el juego sea divertido y funcional.
 
 
-16. RESUMEN PARA OTRA IA
+16. ESTADO ACTUAL DEL PROTOTIPO
+-------------------------------
+
+El proyecto ya tiene una primera version local/simulada funcionando.
+
+Actualmente incluye:
+
+- Proyecto Flutter creado.
+- Repositorio GitHub conectado.
+- Pantalla de inicio.
+- Pantalla de instrucciones.
+- Pantalla para crear sala.
+- Pantalla para unirse a sala.
+- Botones para limpiar campos de texto.
+- Sala de espera simulada.
+- Lista de 3 jugadores simulados.
+- Selector de rol para probar Piloto, Analista e Ingeniero.
+- Pantalla de juego que cambia segun el rol.
+- Retos aleatorios simulados.
+- Temporizador de 60 segundos.
+- Barra visual de energia.
+- Sistema de errores.
+- Mision actual segun el sistema danado.
+- Resultado de victoria o derrota.
+- Resumen final con energia restante y errores.
+
+La app todavia no esta conectada a Supabase. Por ahora las salas, jugadores y retos son simulados en codigo.
+
+El flujo actual del prototipo es:
+
+1. Entrar a la app.
+2. Crear sala o unirse a una sala.
+3. Llegar a sala de espera.
+4. Elegir un rol para pruebas.
+5. Iniciar partida.
+6. Ver informacion diferente segun el rol.
+7. Resolver el reto antes de que termine el tiempo.
+8. Ganar, perder por error, perder por energia o perder por tiempo.
+
+
+17. SIGUIENTE FASE
+------------------
+
+La siguiente fase sera conectar Supabase.
+
+Objetivos de la siguiente fase:
+
+- Crear tablas reales en Supabase.
+- Guardar salas reales con codigo.
+- Permitir que jugadores entren desde diferentes dispositivos.
+- Mostrar jugadores conectados en tiempo real.
+- Asignar roles automaticamente cuando haya 3 jugadores.
+- Guardar el reto de la sala en base de datos.
+- Sincronizar resultado, errores, energia y temporizador.
+- Hacer que cada jugador vea solo la informacion de su rol.
+
+Antes de conectar Supabase, el prototipo local debe seguir funcionando sin errores.
+
+
+18. RESUMEN PARA OTRA IA
 ------------------------
 
 El usuario quiere crear un juego movil cooperativo en Flutter llamado provisionalmente Nebula Crew.
@@ -498,6 +608,9 @@ El juego sera para 3 jugadores. Cada jugador entra a una sala usando un codigo. 
 
 El Piloto ve la consola de la nave, el Analista ve pistas generales y el Ingeniero ve reglas tecnicas. Los jugadores deben comunicarse para resolver un reto antes de que termine el temporizador.
 
-La primera fase debe ser un prototipo simple, sin login, sin arte complejo y con un solo reto fijo. La app usara Flutter para el frontend y Supabase para base de datos y tiempo real.
+La primera fase es un prototipo simple, sin login y sin arte complejo. Actualmente usa datos simulados: salas simuladas, jugadores simulados y retos aleatorios simulados. La app usara Flutter para el frontend y Supabase para base de datos y tiempo real en la siguiente fase.
 
 El objetivo inicial no es hacer el juego completo, sino lograr que tres jugadores puedan entrar a una sala, recibir roles diferentes, ver informacion distinta y resolver un reto cooperativo.
+
+Estado actual importante:
+Ya existe navegacion, pantalla de instrucciones, crear sala, unirse a sala, sala de espera simulada, selector de rol, pantalla de juego por roles, temporizador, barra de energia, errores, retos aleatorios y pantalla de resultado con resumen.
