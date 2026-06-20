@@ -5,6 +5,7 @@ import 'screens/pantalla_unirse_sala.dart';
 import 'screens/pantalla_espera.dart';
 import 'screens/pantalla_juego.dart';
 import 'screens/pantalla_resultado.dart';
+import 'screens/pantalla_instrucciones.dart';
 
 void main() {
   runApp(const NebulaCrewApp());
@@ -33,6 +34,7 @@ class NebulaCrewApp extends StatelessWidget {
         '/espera': (context) => const PantallaEspera(),
         '/juego': (context) => const PantallaJuego(),
         '/resultado': (context) => const PantallaResultado(),
+        '/instrucciones': (context) => const PantallaInstrucciones(),
       },
     );
   }

@@ -46,6 +46,16 @@ class PantallaInicio extends StatelessWidget {
                 child: const Text('Unirse a sala'),
               ),
             ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/instrucciones');
+                },
+                child: const Text('Como jugar'),
+              ),
+            ),
           ],
         ),
       ),
