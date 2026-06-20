@@ -5,6 +5,8 @@ class Reto {
   final String codigo;
   final String simbolo;
   final String respuestaCorrecta;
+  final String pistaAnalista;
+  final String reglaIngeniero;
   final String estado;
 
   Reto({
@@ -14,6 +16,8 @@ class Reto {
     required this.codigo,
     required this.simbolo,
     required this.respuestaCorrecta,
+    required this.pistaAnalista,
+    required this.reglaIngeniero,
     required this.estado,
   });
 }

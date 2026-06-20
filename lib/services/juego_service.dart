@@ -9,6 +9,10 @@ class JuegoService {
       codigo: 'A7X',
       simbolo: 'Luna',
       respuestaCorrecta: 'derecho',
+      pistaAnalista:
+          'Si el simbolo es Luna, revisa si el codigo contiene el numero 7.',
+      reglaIngeniero:
+          'Si el sistema es Oxigeno y el codigo contiene 7, presiona el boton derecho.',
       estado: 'activo',
     );
   }

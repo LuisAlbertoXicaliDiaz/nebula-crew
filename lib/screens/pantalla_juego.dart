@@ -100,11 +100,11 @@ class PantallaJuego extends StatelessWidget {
     }
 
     if (rol == 'analista') {
-      return _vistaAnalista();
+      return _vistaAnalista(reto);
     }
 
     if (rol == 'ingeniero') {
-      return _vistaIngeniero();
+      return _vistaIngeniero(reto);
     }
 
     return const Center(
@@ -151,28 +151,26 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _vistaAnalista() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TarjetaInfo(
-          titulo: 'Pista general',
-          contenido:
-              'Si el simbolo es Luna, revisa si el codigo contiene el numero 7.',
+Widget _vistaAnalista(Reto reto) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TarjetaInfo(
+        titulo: 'Pista general',
+        contenido: reto.pistaAnalista,
         ),
       ],
     );
   }
 
-  Widget _vistaIngeniero() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TarjetaInfo(
-          titulo: 'Regla tecnica',
-          contenido:
-              'Si el sistema es Oxigeno y el codigo contiene 7, presiona el boton derecho.',
-        ),
+Widget _vistaIngeniero(Reto reto) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      TarjetaInfo(
+        titulo: 'Regla tecnica',
+        contenido: reto.reglaIngeniero,
+      ),
       ],
     );
   }
