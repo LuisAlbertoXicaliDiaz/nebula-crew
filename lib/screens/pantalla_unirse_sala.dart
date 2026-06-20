@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/sala.dart';
+import '../services/sala_service.dart';
 import '../widgets/boton_principal.dart';
 
 class PantallaUnirseSala extends StatefulWidget {
@@ -23,12 +25,16 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
       return;
     }
 
+    final SalaService salaService = SalaService();
+    final Sala sala = salaService.buscarSalaPorCodigo(codigo);
+
     Navigator.pushNamed(
       context,
       '/espera',
       arguments: {
         'nombre': nombre,
-        'codigoSala': codigo,
+        'codigoSala': sala.codigo,
+        'salaId': sala.id,
       },
     );
   }
@@ -68,8 +74,9 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
             const SizedBox(height: 16),
             TextField(
               controller: codigoController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(
-                labelText: 'Código de sala',
+                labelText: 'Codigo de sala',
                 border: OutlineInputBorder(),
               ),
             ),
