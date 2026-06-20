@@ -4,6 +4,7 @@ import '../services/juego_service.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
 import '../widgets/temporizador_widget.dart';
+import '../widgets/barra_energia_widget.dart';
 
 class PantallaJuego extends StatefulWidget {
   const PantallaJuego({super.key});
@@ -109,9 +110,9 @@ class _PantallaJuegoState extends State<PantallaJuego> {
                 contenido: rol.toUpperCase(),
               ),
               const SizedBox(height: 16),
-              TarjetaInfo(
-                titulo: 'Estado de la nave',
-                contenido: 'Energia: $energia%\nErrores: $errores',
+              BarraEnergiaWidget(
+                 energia: energia,
+                 errores: errores,
               ),
               const SizedBox(height: 16),
               TemporizadorWidget(
