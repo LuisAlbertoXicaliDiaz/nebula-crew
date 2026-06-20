@@ -1,14 +1,62 @@
 import 'package:flutter/material.dart';
+import '../widgets/boton_principal.dart';
 
 class PantallaResultado extends StatelessWidget {
   const PantallaResultado({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final argumentos =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+
+    final String resultado = argumentos['resultado'] ?? 'perdida';
+    final String mensaje = argumentos['mensaje'] ?? 'La partida termino.';
+
+    final bool gano = resultado == 'ganada';
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Resultado')),
-      body: const Center(
-        child: Text('Resultado de la partida'),
+      appBar: AppBar(
+        title: const Text('Resultado'),
+        automaticallyImplyLeading: false,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              gano ? Icons.check_circle : Icons.cancel,
+              size: 100,
+              color: gano ? Colors.greenAccent : Colors.redAccent,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              gano ? 'Mision completada' : 'Mision fallida',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              mensaje,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 40),
+            BotonPrincipal(
+              texto: 'Volver al inicio',
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/',
+                  (route) => false,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

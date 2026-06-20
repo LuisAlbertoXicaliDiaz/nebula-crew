@@ -5,6 +5,28 @@ import '../widgets/tarjeta_info.dart';
 class PantallaJuego extends StatelessWidget {
   const PantallaJuego({super.key});
 
+  void validarRespuesta(BuildContext context, String respuesta) {
+    if (respuesta == 'derecho') {
+      Navigator.pushNamed(
+        context,
+        '/resultado',
+        arguments: {
+          'resultado': 'ganada',
+          'mensaje': 'Mision completada. La nave fue estabilizada.',
+        },
+      );
+    } else {
+      Navigator.pushNamed(
+        context,
+        '/resultado',
+        arguments: {
+          'resultado': 'perdida',
+          'mensaje': 'Respuesta incorrecta. El sistema de la nave fallo.',
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final argumentos =
@@ -34,7 +56,7 @@ class PantallaJuego extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Expanded(
-              child: _contenidoPorRol(rol),
+              child: _contenidoPorRol(context, rol),
             ),
           ],
         ),
@@ -42,9 +64,9 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _contenidoPorRol(String rol) {
+  Widget _contenidoPorRol(BuildContext context, String rol) {
     if (rol == 'piloto') {
-      return _vistaPiloto();
+      return _vistaPiloto(context);
     }
 
     if (rol == 'analista') {
@@ -60,7 +82,7 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _vistaPiloto() {
+  Widget _vistaPiloto(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -76,17 +98,23 @@ class PantallaJuego extends StatelessWidget {
         const SizedBox(height: 12),
         BotonPrincipal(
           texto: 'Boton izquierdo',
-          onPressed: () {},
+          onPressed: () {
+            validarRespuesta(context, 'izquierdo');
+          },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton centro',
-          onPressed: () {},
+          onPressed: () {
+            validarRespuesta(context, 'centro');
+          },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton derecho',
-          onPressed: () {},
+          onPressed: () {
+            validarRespuesta(context, 'derecho');
+          },
         ),
       ],
     );
@@ -98,7 +126,8 @@ class PantallaJuego extends StatelessWidget {
       children: [
         TarjetaInfo(
           titulo: 'Pista general',
-          contenido: 'Si el simbolo es Luna, revisa si el codigo contiene el numero 7.',
+          contenido:
+              'Si el simbolo es Luna, revisa si el codigo contiene el numero 7.',
         ),
       ],
     );
@@ -110,7 +139,8 @@ class PantallaJuego extends StatelessWidget {
       children: [
         TarjetaInfo(
           titulo: 'Regla tecnica',
-          contenido: 'Si el sistema es Oxigeno y el codigo contiene 7, presiona el boton derecho.',
+          contenido:
+              'Si el sistema es Oxigeno y el codigo contiene 7, presiona el boton derecho.',
         ),
       ],
     );
