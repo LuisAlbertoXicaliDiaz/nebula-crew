@@ -53,16 +53,27 @@ class PantallaResultado extends StatelessWidget {
               contenido: 'Energia restante: $energia%\nErrores: $errores',
             ),
             const SizedBox(height: 40),
-            BotonPrincipal(
-              texto: 'Volver al inicio',
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/',
-                  (route) => false,
-                );
-              },
-            ),
+BotonPrincipal(
+  texto: 'Jugar otra vez',
+  onPressed: () {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/crear-sala',
+      (route) => false,
+    );
+  },
+),
+const SizedBox(height: 12),
+BotonPrincipal(
+  texto: 'Volver al inicio',
+  onPressed: () {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+      (route) => false,
+    );
+  },
+),
           ],
         ),
       ),
