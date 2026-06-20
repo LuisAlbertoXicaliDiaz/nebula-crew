@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/reto.dart';
+import '../services/juego_service.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
 import '../widgets/temporizador_widget.dart';
@@ -6,8 +8,14 @@ import '../widgets/temporizador_widget.dart';
 class PantallaJuego extends StatelessWidget {
   const PantallaJuego({super.key});
 
-  void validarRespuesta(BuildContext context, String respuesta) {
-    if (respuesta == 'derecho') {
+  void validarRespuesta(BuildContext context, Reto reto, String respuesta) {
+    final JuegoService juegoService = JuegoService();
+    final bool respuestaCorrecta = juegoService.validarRespuesta(
+      reto,
+      respuesta,
+    );
+
+    if (respuestaCorrecta) {
       Navigator.pushNamed(
         context,
         '/resultado',
@@ -48,6 +56,9 @@ class PantallaJuego extends StatelessWidget {
     final String codigoSala = argumentos['codigoSala'] ?? '0000';
     final String rol = argumentos['rol'] ?? 'piloto';
 
+    final JuegoService juegoService = JuegoService();
+    final Reto reto = juegoService.obtenerRetoInicial();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Partida'),
@@ -75,7 +86,7 @@ class PantallaJuego extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 24),
-              _contenidoPorRol(context, rol),
+              _contenidoPorRol(context, rol, reto),
             ],
           ),
         ),
@@ -83,9 +94,9 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _contenidoPorRol(BuildContext context, String rol) {
+  Widget _contenidoPorRol(BuildContext context, String rol, Reto reto) {
     if (rol == 'piloto') {
-      return _vistaPiloto(context);
+      return _vistaPiloto(context, reto);
     }
 
     if (rol == 'analista') {
@@ -101,13 +112,14 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _vistaPiloto(BuildContext context) {
+  Widget _vistaPiloto(BuildContext context, Reto reto) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TarjetaInfo(
+        TarjetaInfo(
           titulo: 'Consola de la nave',
-          contenido: 'Sistema: Oxigeno\nCodigo: A7X\nSimbolo: Luna',
+          contenido:
+              'Sistema: ${reto.sistema}\nCodigo: ${reto.codigo}\nSimbolo: ${reto.simbolo}',
         ),
         const SizedBox(height: 16),
         const Text(
@@ -118,21 +130,21 @@ class PantallaJuego extends StatelessWidget {
         BotonPrincipal(
           texto: 'Boton izquierdo',
           onPressed: () {
-            validarRespuesta(context, 'izquierdo');
+            validarRespuesta(context, reto, 'izquierdo');
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton centro',
           onPressed: () {
-            validarRespuesta(context, 'centro');
+            validarRespuesta(context, reto, 'centro');
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton derecho',
           onPressed: () {
-            validarRespuesta(context, 'derecho');
+            validarRespuesta(context, reto, 'derecho');
           },
         ),
       ],
