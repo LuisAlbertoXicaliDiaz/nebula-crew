@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/jugador.dart';
+import '../services/jugador_service.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
 
@@ -19,12 +21,13 @@ class _PantallaEsperaState extends State<PantallaEspera> {
 
     final String nombre = argumentos['nombre'] ?? 'Jugador';
     final String codigoSala = argumentos['codigoSala'] ?? '0000';
+    final String salaId = argumentos['salaId'] ?? 'sala_demo';
 
-    final List<String> jugadores = [
-      nombre,
-      'Analista invitado',
-      'Ingeniero invitado',
-    ];
+    final JugadorService jugadorService = JugadorService();
+    final List<Jugador> jugadores = jugadorService.obtenerJugadoresSimulados(
+      nombreJugadorPrincipal: nombre,
+      salaId: salaId,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -52,10 +55,13 @@ class _PantallaEsperaState extends State<PantallaEspera> {
               child: ListView.builder(
                 itemCount: jugadores.length,
                 itemBuilder: (context, index) {
+                  final Jugador jugador = jugadores[index];
+
                   return Card(
                     child: ListTile(
                       leading: const Icon(Icons.person),
-                      title: Text(jugadores[index]),
+                      title: Text(jugador.nombre),
+                      subtitle: Text('Rol sugerido: ${jugador.rol}'),
                     ),
                   );
                 },
@@ -97,6 +103,7 @@ class _PantallaEsperaState extends State<PantallaEspera> {
                   arguments: {
                     'nombre': nombre,
                     'codigoSala': codigoSala,
+                    'salaId': salaId,
                     'rol': rolSeleccionado,
                   },
                 );
