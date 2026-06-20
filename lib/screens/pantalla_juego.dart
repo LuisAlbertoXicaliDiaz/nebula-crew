@@ -5,11 +5,24 @@ import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
 import '../widgets/temporizador_widget.dart';
 
-class PantallaJuego extends StatelessWidget {
+class PantallaJuego extends StatefulWidget {
   const PantallaJuego({super.key});
 
-  void validarRespuesta(BuildContext context, Reto reto, String respuesta) {
-    final JuegoService juegoService = JuegoService();
+  @override
+  State<PantallaJuego> createState() => _PantallaJuegoState();
+}
+
+class _PantallaJuegoState extends State<PantallaJuego> {
+  late Reto reto;
+  final JuegoService juegoService = JuegoService();
+
+  @override
+  void initState() {
+    super.initState();
+    reto = juegoService.obtenerRetoAleatorio();
+  }
+
+  void validarRespuesta(BuildContext context, String respuesta) {
     final bool respuestaCorrecta = juegoService.validarRespuesta(
       reto,
       respuesta,
@@ -56,9 +69,6 @@ class PantallaJuego extends StatelessWidget {
     final String codigoSala = argumentos['codigoSala'] ?? '0000';
     final String rol = argumentos['rol'] ?? 'piloto';
 
-    final JuegoService juegoService = JuegoService();
-    final Reto reto = juegoService.obtenerRetoAleatorio();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Partida'),
@@ -86,7 +96,7 @@ class PantallaJuego extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 24),
-              _contenidoPorRol(context, rol, reto),
+              _contenidoPorRol(context, rol),
             ],
           ),
         ),
@@ -94,17 +104,17 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _contenidoPorRol(BuildContext context, String rol, Reto reto) {
+  Widget _contenidoPorRol(BuildContext context, String rol) {
     if (rol == 'piloto') {
-      return _vistaPiloto(context, reto);
+      return _vistaPiloto(context);
     }
 
     if (rol == 'analista') {
-      return _vistaAnalista(reto);
+      return _vistaAnalista();
     }
 
     if (rol == 'ingeniero') {
-      return _vistaIngeniero(reto);
+      return _vistaIngeniero();
     }
 
     return const Center(
@@ -112,7 +122,7 @@ class PantallaJuego extends StatelessWidget {
     );
   }
 
-  Widget _vistaPiloto(BuildContext context, Reto reto) {
+  Widget _vistaPiloto(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -130,47 +140,47 @@ class PantallaJuego extends StatelessWidget {
         BotonPrincipal(
           texto: 'Boton izquierdo',
           onPressed: () {
-            validarRespuesta(context, reto, 'izquierdo');
+            validarRespuesta(context, 'izquierdo');
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton centro',
           onPressed: () {
-            validarRespuesta(context, reto, 'centro');
+            validarRespuesta(context, 'centro');
           },
         ),
         const SizedBox(height: 8),
         BotonPrincipal(
           texto: 'Boton derecho',
           onPressed: () {
-            validarRespuesta(context, reto, 'derecho');
+            validarRespuesta(context, 'derecho');
           },
         ),
       ],
     );
   }
 
-Widget _vistaAnalista(Reto reto) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      TarjetaInfo(
-        titulo: 'Pista general',
-        contenido: reto.pistaAnalista,
+  Widget _vistaAnalista() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TarjetaInfo(
+          titulo: 'Pista general',
+          contenido: reto.pistaAnalista,
         ),
       ],
     );
   }
 
-Widget _vistaIngeniero(Reto reto) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      TarjetaInfo(
-        titulo: 'Regla tecnica',
-        contenido: reto.reglaIngeniero,
-      ),
+  Widget _vistaIngeniero() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TarjetaInfo(
+          titulo: 'Regla tecnica',
+          contenido: reto.reglaIngeniero,
+        ),
       ],
     );
   }
