@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import '../widgets/boton_principal.dart';
 import '../widgets/tarjeta_info.dart';
 
-class PantallaEspera extends StatelessWidget {
+class PantallaEspera extends StatefulWidget {
   const PantallaEspera({super.key});
+
+  @override
+  State<PantallaEspera> createState() => _PantallaEsperaState();
+}
+
+class _PantallaEsperaState extends State<PantallaEspera> {
+  String rolSeleccionado = 'piloto';
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,7 @@ class PantallaEspera extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TarjetaInfo(
-              titulo: 'Código de sala',
+              titulo: 'Codigo de sala',
               contenido: codigoSala,
             ),
             const SizedBox(height: 20),
@@ -54,6 +61,33 @@ class PantallaEspera extends StatelessWidget {
                 },
               ),
             ),
+            DropdownButtonFormField<String>(
+              value: rolSeleccionado,
+              decoration: const InputDecoration(
+                labelText: 'Rol para probar',
+                border: OutlineInputBorder(),
+              ),
+              items: const [
+                DropdownMenuItem(
+                  value: 'piloto',
+                  child: Text('Piloto'),
+                ),
+                DropdownMenuItem(
+                  value: 'analista',
+                  child: Text('Analista'),
+                ),
+                DropdownMenuItem(
+                  value: 'ingeniero',
+                  child: Text('Ingeniero'),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  rolSeleccionado = value ?? 'piloto';
+                });
+              },
+            ),
+            const SizedBox(height: 16),
             BotonPrincipal(
               texto: 'Iniciar partida',
               onPressed: () {
@@ -63,7 +97,7 @@ class PantallaEspera extends StatelessWidget {
                   arguments: {
                     'nombre': nombre,
                     'codigoSala': codigoSala,
-                    'rol': 'piloto',
+                    'rol': rolSeleccionado,
                   },
                 );
               },
