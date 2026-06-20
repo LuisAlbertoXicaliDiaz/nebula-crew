@@ -66,18 +66,30 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
             const SizedBox(height: 30),
             TextField(
               controller: nombreController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Tu nombre',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    nombreController.clear();
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 16),
             TextField(
               controller: codigoController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Codigo de sala',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    codigoController.clear();
+                  },
+                ),
               ),
             ),
             const SizedBox(height: 20),

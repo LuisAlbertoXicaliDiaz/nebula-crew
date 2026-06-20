@@ -63,9 +63,15 @@ class _PantallaCrearSalaState extends State<PantallaCrearSala> {
             const SizedBox(height: 30),
             TextField(
               controller: nombreController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Tu nombre',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton( 
+                  icon: const Icon(Icons.clear), 
+                  onPressed: () {
+                    nombreController.clear();
+                  }
+                )
               ),
             ),
             const SizedBox(height: 20),
