@@ -1,16 +1,19 @@
-# nebula_crew
+# Nebula Crew
 
-A new Flutter project.
+Prototipo de juego cooperativo multijugador hecho con Flutter y Supabase.
 
-## Getting Started
+## Idea
 
-This project is a starting point for a Flutter application.
+Tres jugadores entran a una sala, reciben roles diferentes y deben reparar una nave espacial antes de que termine el tiempo.
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologías
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- Dart
+- Supabase
+- Supabase Realtime
+- GitHub
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Estado del proyecto
+
+Primera fase: prototipo funcional.
