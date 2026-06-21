@@ -15,6 +15,9 @@ class PantallaResultado extends StatelessWidget {
     final String energia = argumentos['energia'] ?? '0';
     final String errores = argumentos['errores'] ?? '0';
     final String dificultad = argumentos['dificultad'] ?? 'facil';
+    final String sistema = argumentos['sistema'] ?? 'Desconocido';
+    final String respuestaCorrecta =
+    argumentos['respuestaCorrecta'] ?? 'No disponible';
 
     final bool gano = resultado == 'ganada';
 
@@ -52,7 +55,7 @@ class PantallaResultado extends StatelessWidget {
             TarjetaInfo(
               titulo: 'Resumen',
               contenido: 
-                'Energia restante: $energia%\nErrores: $errores\nDificultad: ${dificultad.toUpperCase()}',
+                  'Sistema: $sistema\nEnergia restante: $energia%\nErrores: $errores\nDificultad: ${dificultad.toUpperCase()}\nRespuesta correcta: ${respuestaCorrecta.toUpperCase()}',
             ),
             const SizedBox(height: 40),
 BotonPrincipal(

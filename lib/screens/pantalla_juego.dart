@@ -66,6 +66,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
           'energia': energia.toString(),
           'errores': errores.toString(),
           'dificultad': dificultad,
+          'sistema': reto.sistema,
+          'respuestaCorrecta': reto.respuestaCorrecta,
         },
       );
     } else {
@@ -84,6 +86,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
             'energia': energia.toString(),
             'errores': errores.toString(),
             'dificultad': dificultad,
+            'sistema': reto.sistema,
+            'respuestaCorrecta': reto.respuestaCorrecta,
           },
         );
       } else {
@@ -106,6 +110,8 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         'energia': energia.toString(),
         'errores': errores.toString(),
         'dificultad': dificultad,
+        'sistema': reto.sistema,
+        'respuestaCorrecta': reto.respuestaCorrecta,
       },
     );
   }
