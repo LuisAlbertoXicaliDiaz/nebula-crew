@@ -6,8 +6,11 @@ import 'screens/pantalla_espera.dart';
 import 'screens/pantalla_juego.dart';
 import 'screens/pantalla_resultado.dart';
 import 'screens/pantalla_instrucciones.dart';
+import 'services/supabase_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SupabaseService.inicializar();
   runApp(const NebulaCrewApp());
 }
 
