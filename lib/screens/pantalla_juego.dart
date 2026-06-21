@@ -83,6 +83,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
             'mensaje': 'La energia llego a 0. La nave fallo.',
             'energia': energia.toString(),
             'errores': errores.toString(),
+            'dificultad': dificultad,
           },
         );
       } else {
@@ -95,7 +96,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
     }
   }
 
-  void perderPorTiempo(BuildContext context) {
+  void perderPorTiempo(BuildContext context, String dificultad) {
     Navigator.pushReplacementNamed(
       context,
       '/resultado',
@@ -104,6 +105,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
         'mensaje': 'Se acabo el tiempo. La nave no pudo estabilizarse.',
         'energia': energia.toString(),
         'errores': errores.toString(),
+        'dificultad': dificultad,
       },
     );
   }
@@ -156,7 +158,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
               TemporizadorWidget(
                 segundosIniciales: obtenerTiempoPorDificultad(dificultad),
                 alTerminar: () {
-                  perderPorTiempo(context);
+                  perderPorTiempo(context, dificultad);
                 },
               ),
               const SizedBox(height: 24),

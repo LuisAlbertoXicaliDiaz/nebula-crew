@@ -14,7 +14,7 @@ class PantallaResultado extends StatelessWidget {
     final String mensaje = argumentos['mensaje'] ?? 'La partida termino.';
     final String energia = argumentos['energia'] ?? '0';
     final String errores = argumentos['errores'] ?? '0';
-    final String dificultad = argumentos['dificultad'] ?? 'medio';
+    final String dificultad = argumentos['dificultad'] ?? 'facil';
 
     final bool gano = resultado == 'ganada';
 
