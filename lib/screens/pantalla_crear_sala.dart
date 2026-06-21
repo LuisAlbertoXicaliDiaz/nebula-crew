@@ -12,8 +12,10 @@ class PantallaCrearSala extends StatefulWidget {
 
 class _PantallaCrearSalaState extends State<PantallaCrearSala> {
   final TextEditingController nombreController = TextEditingController();
+  String dificultadSeleccionada = 'facil';
+  bool cargando = false;
 
-  void crearSala() {
+  Future<void> crearSala() async {
     String nombre = nombreController.text;
 
     if (nombre.isEmpty) {
@@ -23,8 +25,22 @@ class _PantallaCrearSalaState extends State<PantallaCrearSala> {
       return;
     }
 
+    setState(() {
+      cargando = true;
+    });
+
     final SalaService salaService = SalaService();
-    final Sala sala = salaService.crearSala();
+    final Sala sala = await salaService.crearSala(
+      dificultad: dificultadSeleccionada,
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      cargando = false;
+    });
 
     Navigator.pushNamed(
       context,
@@ -33,6 +49,7 @@ class _PantallaCrearSalaState extends State<PantallaCrearSala> {
         'nombre': nombre,
         'codigoSala': sala.codigo,
         'salaId': sala.id,
+        'dificultad': dificultadSeleccionada,
       },
     );
   }
@@ -66,19 +83,48 @@ class _PantallaCrearSalaState extends State<PantallaCrearSala> {
               decoration: InputDecoration(
                 labelText: 'Tu nombre',
                 border: const OutlineInputBorder(),
-                suffixIcon: IconButton( 
-                  icon: const Icon(Icons.clear), 
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.clear),
                   onPressed: () {
                     nombreController.clear();
-                  }
-                )
+                  },
+                ),
               ),
             ),
-            const SizedBox(height: 20),
-            BotonPrincipal(
-              texto: 'Crear sala',
-              onPressed: crearSala,
+            const SizedBox(height: 16),
+            DropdownButtonFormField<String>(
+              value: dificultadSeleccionada,
+              decoration: const InputDecoration(
+                labelText: 'Dificultad',
+                border: OutlineInputBorder(),
+              ),
+              items: const [
+                DropdownMenuItem(
+                  value: 'facil',
+                  child: Text('Facil'),
+                ),
+                DropdownMenuItem(
+                  value: 'medio',
+                  child: Text('Medio'),
+                ),
+                DropdownMenuItem(
+                  value: 'dificil',
+                  child: Text('Dificil'),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  dificultadSeleccionada = value ?? 'facil';
+                });
+              },
             ),
+            const SizedBox(height: 20),
+            cargando
+                ? const CircularProgressIndicator()
+                : BotonPrincipal(
+                    texto: 'Crear sala',
+                    onPressed: crearSala,
+                  ),
           ],
         ),
       ),

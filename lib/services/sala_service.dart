@@ -1,22 +1,47 @@
 import 'dart:math';
 import '../models/sala.dart';
+import 'supabase_service.dart';
 
 class SalaService {
-  Sala crearSala() {
+  Future<Sala> crearSala({
+    required String dificultad,
+  }) async {
     String codigo = generarCodigoSala();
 
+    final data = await SupabaseService.client
+        .from('salas')
+        .insert({
+          'codigo': codigo,
+          'estado': 'esperando',
+          'dificultad': dificultad,
+          'energia': 100,
+          'errores': 0,
+        })
+        .select()
+        .single();
+
     return Sala(
-      id: 'sala_demo',
-      codigo: codigo,
-      estado: 'esperando',
+      id: data['id'],
+      codigo: data['codigo'],
+      estado: data['estado'],
     );
   }
 
-  Sala buscarSalaPorCodigo(String codigo) {
+  Future<Sala?> buscarSalaPorCodigo(String codigo) async {
+    final data = await SupabaseService.client
+        .from('salas')
+        .select()
+        .eq('codigo', codigo)
+        .maybeSingle();
+
+    if (data == null) {
+      return null;
+    }
+
     return Sala(
-      id: 'sala_demo',
-      codigo: codigo,
-      estado: 'esperando',
+      id: data['id'],
+      codigo: data['codigo'],
+      estado: data['estado'],
     );
   }
 

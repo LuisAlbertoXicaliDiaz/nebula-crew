@@ -14,6 +14,7 @@ class PantallaEspera extends StatefulWidget {
 class _PantallaEsperaState extends State<PantallaEspera> {
   String rolSeleccionado = 'piloto';
   String dificultadSeleccionada = 'facil';
+  bool dificultadCargada = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,12 @@ class _PantallaEsperaState extends State<PantallaEspera> {
     final String nombre = argumentos['nombre'] ?? 'Jugador';
     final String codigoSala = argumentos['codigoSala'] ?? '0000';
     final String salaId = argumentos['salaId'] ?? 'sala_demo';
+    final String dificultadInicial = argumentos['dificultad'] ?? 'facil';
+
+    if (!dificultadCargada) {
+      dificultadSeleccionada = dificultadInicial;
+      dificultadCargada = true;
+    }
 
     final JugadorService jugadorService = JugadorService();
     final List<Jugador> jugadores = jugadorService.obtenerJugadoresSimulados(

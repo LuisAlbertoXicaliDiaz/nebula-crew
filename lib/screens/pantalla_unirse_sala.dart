@@ -14,7 +14,9 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController codigoController = TextEditingController();
 
-  void unirseSala() {
+  bool cargando = false;
+
+  Future<void> unirseSala() async {
     String nombre = nombreController.text;
     String codigo = codigoController.text;
 
@@ -25,8 +27,27 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
       return;
     }
 
+    setState(() {
+      cargando = true;
+    });
+
     final SalaService salaService = SalaService();
-    final Sala sala = salaService.buscarSalaPorCodigo(codigo);
+    final Sala? sala = await salaService.buscarSalaPorCodigo(codigo);
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      cargando = false;
+    });
+
+    if (sala == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No existe una sala con ese codigo')),
+      );
+      return;
+    }
 
     Navigator.pushNamed(
       context,
@@ -35,6 +56,7 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
         'nombre': nombre,
         'codigoSala': sala.codigo,
         'salaId': sala.id,
+        'dificultad': 'facil',
       },
     );
   }
@@ -93,10 +115,12 @@ class _PantallaUnirseSalaState extends State<PantallaUnirseSala> {
               ),
             ),
             const SizedBox(height: 20),
-            BotonPrincipal(
-              texto: 'Unirse',
-              onPressed: unirseSala,
-            ),
+            cargando
+                ? const CircularProgressIndicator()
+                : BotonPrincipal(
+                    texto: 'Unirse',
+                    onPressed: unirseSala,
+                  ),
           ],
         ),
       ),
