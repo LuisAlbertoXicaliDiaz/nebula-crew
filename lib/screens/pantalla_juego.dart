@@ -65,6 +65,7 @@ class _PantallaJuegoState extends State<PantallaJuego> {
           'mensaje': 'Mision completada. La nave fue estabilizada.',
           'energia': energia.toString(),
           'errores': errores.toString(),
+          'dificultad': dificultad,
         },
       );
     } else {
